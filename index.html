@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ الشحن الكهربائي والكشاف - فيزياء 12 متقدم | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي شامل عن الشحن الكهربائي والكشاف الكهربائي - فيزياء الصف 12 المتقدم">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #d97706; }
+[dir="ltr"] .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #d97706; color: white; box-shadow: 0 2px 6px rgba(217,119,6,0.4); }
+.lang-btn:hover:not(.active) { background: #fef3c7; color: #d97706; }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #d97706, #b45309); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', 'Times New Roman', serif; font-size: 1.2em; padding: 2px 8px; background: #fef3c7; border-radius: 6px; margin: 2px; color: #92400e; font-weight: 600; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #fef3c7; color: #92400e; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #ecfdf5; color: #065f46; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-amber-100">
+<span class="text-gray-600 ml-2">⏰ الوقت المتبقي:</span>
+<span id="timer" class="text-2xl font-bold text-amber-700 font-mono">90:00</span>
+<span class="shuffle-badge">⚡ الشحن الكهربائي - 30 سؤال</span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">👀 إظهار/إخفاء الإجابات</button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">🖨️ طباعة</button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white px-5 py-2 rounded-xl font-medium transition shadow">🔄 أسئلة جديدة</button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ مسح التقدم</button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-amber-500">
+<div class="text-center">
+<div class="inline-block bg-amber-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">PHYSICS GRADE 12 ADVANCED</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">⚡ الشحن الكهربائي والكشاف الكهربائي</h1>
+<h2 class="text-xl text-amber-700 font-semibold mb-2">الصف الثاني عشر المتقدم (فيزياء)</h2>
+<p class="text-gray-600 mb-4">Charging by Friction, Contact, Induction & Electroscope</p>
+<p class="text-sm text-green-600 font-semibold">💾 يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام</p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 التاريخ: <input type="text" id="examDate" class="border-b-2 border-amber-300 bg-transparent w-32 text-center"></span>
+<span>😊 الاسم: <input type="text" id="studentName" class="border-b-2 border-amber-300 bg-transparent w-40 text-center" placeholder="اكتب اسمك"></span>
+<span>🏫 الشعبة: <input type="text" id="studentClass" class="border-b-2 border-amber-300 bg-transparent w-32 text-center" placeholder="الشعبة"></span>
+<span>⏰ المدة: 90 دقيقة</span>
+<span>📊 المجموع: 100 درجة</span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-amber-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-amber-800 text-center">📐 القوانين الأساسية</h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box"><strong>Like charges:</strong> Repel (تتنافر)</div>
+<div class="formula-box"><strong>Opposite charges:</strong> Attract (تتجاذب)</div>
+<div class="formula-box"><strong>Friction:</strong> Transfer of electrons</div>
+<div class="formula-box"><strong>Contact:</strong> Sharing charges</div>
+<div class="formula-box"><strong>Induction:</strong> No contact needed</div>
+<div class="formula-box"><strong>Grounding:</strong> Neutralize charge</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 صحح إجاباتي!</button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">🏆 نتيجتك يا بطل! 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>😊 الاسم</p><p id="res-name" class="font-bold text-xl text-amber-700">-</p></div>
+<div class="bg-orange-50 p-4 rounded-xl text-center"><p>📅 التاريخ</p><p id="res-date" class="font-bold text-xl text-orange-700">-</p></div>
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>🌟 المجموع</p><p id="res-total" class="font-bold text-3xl text-amber-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-amber-700 mt-2">0%</p>
+<p class="text-sm text-gray-500">نسبة النجاح</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 أدائك في كل قسم:</h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-amber-700 to-orange-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 أرسل النتيجة للمعلم</button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Charging & Electroscope - Grade 12 | Mr. Mohammed Hesham ⚡
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'charging_electroscope_grade12_v1';
+const TOTAL_TIME = 5400;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 6;
+const QUESTIONS_PER_SECTION = 5;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+let examData;
+let correctAnswersMap = {};
+let rng = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector('input[name="q'+idx+'"][value="'+val+'"]');
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '️ هل أنت متأكد من مسح كل التقدم؟' : '⚠️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG Diagrams ====================
+const svgGraphs = {
+    electroscope: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold"> الكشاف الكهربائي - Electroscope</text>
+        <circle cx="200" cy="60" r="15" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="65" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">Ball</text>
+        <line x1="200" y1="75" x2="200" y2="180" stroke="#374151" stroke-width="3"/>
+        <text x="215" y="130" font-size="10" fill="#374151">Metal rod</text>
+        <line x1="200" y1="180" x2="170" y2="230" stroke="#374151" stroke-width="2"/>
+        <line x1="200" y1="180" x2="230" y2="230" stroke="#374151" stroke-width="2"/>
+        <text x="170" y="245" font-size="9" fill="#374151">Leaf</text>
+        <text x="230" y="245" font-size="9" fill="#374151">Leaf</text>
+        <circle cx="200" cy="150" r="60" fill="none" stroke="#374151" stroke-width="3"/>
+        <text x="200" y="155" text-anchor="middle" font-size="10" fill="#374151">Glass jar</text>
+        <rect x="150" y="250" width="100" height="15" fill="#6b7280" stroke="#374151" stroke-width="2"/>
+        <text x="200" y="270" text-anchor="middle" font-size="10" fill="#374151">Base</text>
+    </svg>`,
+    
+    charging_by_friction: `<svg class="svg-graph" width="400" height="240" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="230" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">🔄 الشحن بالدلك - Charging by Friction</text>
+        <rect x="50" y="80" width="100" height="60" rx="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <text x="100" y="115" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">Glass rod</text>
+        <text x="100" y="130" text-anchor="middle" font-size="10" fill="#92400e">قضيب زجاجي</text>
+        <rect x="250" y="80" width="100" height="60" rx="6" fill="#9ca3af" stroke="#4b5563" stroke-width="2"/>
+        <text x="300" y="115" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Silk cloth</text>
+        <text x="300" y="130" text-anchor="middle" font-size="10" fill="white">قطعة حرير</text>
+        <path d="M 150 110 Q 200 80 250 110" fill="none" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow1)"/>
+        <text x="200" y="90" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="bold">Rubbing</text>
+        <text x="200" y="170" text-anchor="middle" font-size="11" fill="#1e40af">Glass loses e⁻ → becomes +</text>
+        <text x="200" y="190" text-anchor="middle" font-size="11" fill="#1e40af">Silk gains e⁻ → becomes -</text>
+        <text x="200" y="215" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">Electrons transfer from glass to silk</text>
+        <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+    </svg>`,
+    
+    charging_by_contact: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">⚡ الشحن بالتوصيل - Charging by Contact</text>
+        <circle cx="100" cy="130" r="40" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="100" y="125" text-anchor="middle" font-size="11" fill="white" font-weight="bold">+Q</text>
+        <text x="100" y="140" text-anchor="middle" font-size="10" fill="white">Charged</text>
+        <circle cx="280" cy="130" r="40" fill="#d1d5db" stroke="#6b7280" stroke-width="2"/>
+        <text x="280" y="135" text-anchor="middle" font-size="11" fill="#374151" font-weight="bold">Neutral</text>
+        <line x1="140" y1="130" x2="240" y2="130" stroke="#dc2626" stroke-width="4" marker-end="url(#arrow2)"/>
+        <text x="190" y="115" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="bold">Touch</text>
+        <text x="200" y="190" text-anchor="middle" font-size="11" fill="#9f1239">After contact: both share charge</text>
+        <text x="200" y="210" text-anchor="middle" font-size="11" fill="#9f1239">Both become +Q/2 (if identical)</text>
+        <text x="200" y="235" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Charge transfers through direct contact</text>
+        <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+    </svg>`,
+    
+    charging_by_induction: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">⚡ الشحن بالحث - Charging by Induction</text>
+        <circle cx="80" cy="100" r="25" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="80" y="105" text-anchor="middle" font-size="11" fill="white" font-weight="bold">-Q</text>
+        <text x="80" y="140" text-anchor="middle" font-size="10" fill="#065f46">Bring near</text>
+        <rect x="150" y="80" width="100" height="60" rx="6" fill="#d1d5db" stroke="#6b7280" stroke-width="2"/>
+        <text x="200" y="115" text-anchor="middle" font-size="11" fill="#374151" font-weight="bold">Neutral</text>
+        <text x="200" y="130" text-anchor="middle" font-size="9" fill="#374151">+ - + -</text>
+        <line x1="250" y1="110" x2="320" y2="110" stroke="#10b981" stroke-width="2" marker-end="url(#arrow3)"/>
+        <text x="285" y="100" text-anchor="middle" font-size="10" fill="#10b981">Ground</text>
+        <text x="200" y="170" text-anchor="middle" font-size="11" fill="#065f46">Electrons repelled to ground</text>
+        <text x="200" y="190" text-anchor="middle" font-size="11" fill="#065f46">Remove ground, then remove -Q</text>
+        <text x="200" y="215" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Object becomes positively charged</text>
+        <text x="200" y="240" text-anchor="middle" font-size="10" fill="#065f46">No direct contact needed!</text>
+        <text x="200" y="260" text-anchor="middle" font-size="10" fill="#065f46">Opposite charge to inducing object</text>
+        <defs><marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#10b981"/></marker></defs>
+    </svg>`,
+    
+    triboelectric_series: `<svg class="svg-graph" width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="290" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">📊 سلسلة الشحن الكهربائي</text>
+        <text x="200" y="45" text-anchor="middle" font-size="11" fill="#5b21b6">Triboelectric Series</text>
+        <line x1="200" y1="55" x2="200" y2="270" stroke="#374151" stroke-width="2"/>
+        <polygon points="195,55 200,45 205,55" fill="#dc2626"/>
+        <polygon points="195,270 200,280 205,270" fill="#2563eb"/>
+        <text x="215" y="60" font-size="10" fill="#dc2626" font-weight="bold">Most positive (+)</text>
+        <text x="215" y="275" font-size="10" fill="#2563eb" font-weight="bold">Most negative (-)</text>
+        <text x="180" y="80" text-anchor="end" font-size="10" fill="#5b21b6">Rabbit fur</text>
+        <text x="180" y="100" text-anchor="end" font-size="10" fill="#5b21b6">Glass</text>
+        <text x="180" y="120" text-anchor="end" font-size="10" fill="#5b21b6">Human hair</text>
+        <text x="180" y="140" text-anchor="end" font-size="10" fill="#5b21b6">Nylon</text>
+        <text x="180" y="160" text-anchor="end" font-size="10" fill="#5b21b6">Wool</text>
+        <text x="180" y="180" text-anchor="end" font-size="10" fill="#5b21b6">Silk</text>
+        <text x="180" y="200" text-anchor="end" font-size="10" fill="#5b21b6">Paper</text>
+        <text x="180" y="220" text-anchor="end" font-size="10" fill="#5b21b6">Cotton</text>
+        <text x="180" y="240" text-anchor="end" font-size="10" fill="#5b21b6">Rubber</text>
+        <text x="180" y="260" text-anchor="end" font-size="10" fill="#5b21b6">Teflon</text>
+        <text x="200" y="285" text-anchor="middle" font-size="10" fill="#5b21b6">Higher item becomes + when rubbed with lower</text>
+    </svg>`,
+    
+    grounding: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold">⚡ التأريض - Grounding</text>
+        <circle cx="200" cy="80" r="30" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="200" y="85" text-anchor="middle" font-size="11" fill="white" font-weight="bold">+Q</text>
+        <line x1="200" y1="110" x2="200" y2="180" stroke="#374151" stroke-width="3"/>
+        <text x="215" y="150" font-size="10" fill="#374151">Wire</text>
+        <line x1="150" y1="180" x2="250" y2="180" stroke="#374151" stroke-width="3"/>
+        <line x1="170" y1="180" x2="170" y2="200" stroke="#374151" stroke-width="2"/>
+        <line x1="200" y1="180" x2="200" y2="205" stroke="#374151" stroke-width="2"/>
+        <line x1="230" y1="180" x2="230" y2="200" stroke="#374151" stroke-width="2"/>
+        <text x="200" y="220" text-anchor="middle" font-size="11" fill="#374151" font-weight="bold">Earth (Ground)</text>
+        <text x="200" y="240" text-anchor="middle" font-size="11" fill="#991b1b">Electrons flow from ground to neutralize +Q</text>
+        <text x="200" y="255" text-anchor="middle" font-size="10" fill="#991b1b">Object becomes neutral after grounding</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 30 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: الشحن بالدلك (Q1-Q5)', en: '🔹 Section 1: Charging by Friction (Q1-Q5)' },
+            questions: [
+                {
+                    q: { ar: 'عند دلك قضيب زجاجي بقطعة حرير، يصبح القضيب:', en: 'When rubbing a glass rod with silk, the rod becomes:' },
+                    svg: svgGraphs.charging_by_friction,
+                    options: [
+                        { ar: 'موجب الشحنة (فقد إلكترونات)', en: 'Positively charged (lost electrons)' },
+                        { ar: 'سالب الشحنة (اكتسب إلكترونات)', en: 'Negatively charged (gained electrons)' },
+                        { ar: 'متعادلاً', en: 'Neutral' },
+                        { ar: 'يعتمد على اتجاه الدلك', en: 'Depends on rubbing direction' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الزجاج يفقد إلكترونات للحرير فيصبح موجب الشحنة', en: 'Glass loses electrons to silk and becomes positively charged' }
+                },
+                {
+                    q: { ar: 'عند دلك قضيب بلاستيكي (إيبونيت) بفراء الأرنب، يصبح القضيب:', en: 'When rubbing a plastic (ebonite) rod with rabbit fur, the rod becomes:' },
+                    options: [
+                        { ar: 'سالب الشحنة (اكتسب إلكترونات)', en: 'Negatively charged (gained electrons)' },
+                        { ar: 'موجب الشحنة', en: 'Positively charged' },
+                        { ar: 'متعادلاً', en: 'Neutral' },
+                        { ar: 'لا يتأثر', en: 'Unaffected' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'البلاستيك يكتسب إلكترونات من الفراء فيصبح سالب الشحنة', en: 'Plastic gains electrons from fur and becomes negatively charged' }
+                },
+                {
+                    q: { ar: 'في الشحن بالدلك، ما الذي ينتقل فعلياً بين الجسمين؟', en: 'In charging by friction, what actually transfers between objects?' },
+                    options: [
+                        { ar: 'الإلكترونات فقط', en: 'Electrons only' },
+                        { ar: 'البروتونات', en: 'Protons' },
+                        { ar: 'النيوترونات', en: 'Neutrons' },
+                        { ar: 'الشحنات الموجبة والسالبة معاً', en: 'Both positive and negative charges' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الإلكترونات فقط هي التي تنتقل (البروتونات ثابتة في النواة)', en: 'Only electrons transfer (protons are fixed in nucleus)' }
+                },
+                {
+                    q: { ar: 'عند دلك جسمين معاً، الشحنة الكلية للنظام:', en: 'When two objects are rubbed together, total charge of system:' },
+                    options: [
+                        { ar: 'تبقى محفوظة (مجموع الشحنتين = صفر)', en: 'Remains conserved (sum = zero)' },
+                        { ar: 'تزداد', en: 'Increases' },
+                        { ar: 'تقل', en: 'Decreases' },
+                        { ar: 'تصبح صفراً دائماً', en: 'Always becomes zero' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'قانون حفظ الشحنة: الشحنة الكلية تبقى ثابتة', en: 'Conservation of charge: total charge remains constant' }
+                },
+                {
+                    q: { ar: 'في سلسلة الشحن الكهربائي (Triboelectric series)، المادة التي تصبح موجبة عند الدلك هي:', en: 'In triboelectric series, material that becomes positive when rubbed is:' },
+                    svg: svgGraphs.triboelectric_series,
+                    options: [
+                        { ar: 'الأعلى في السلسلة (مثل الفراء، الزجاج)', en: 'Higher in series (like fur, glass)' },
+                        { ar: 'الأدنى في السلسلة (مثل التفلون)', en: 'Lower in series (like Teflon)' },
+                        { ar: 'في منتصف السلسلة', en: 'Middle of series' },
+                        { ar: 'لا علاقة لها بالموقع', en: 'No relation to position' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'المادة الأعلى في السلسلة تفقد إلكترونات وتصبح موجبة', en: 'Higher material loses electrons and becomes positive' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: الشحن بالتوصيل (Q6-Q10)', en: '🔹 Section 2: Charging by Contact (Q6-Q10)' },
+            questions: [
+                {
+                    q: { ar: 'في الشحن بالتوصيل (بالتماس)، يجب أن:', en: 'In charging by contact, it is required that:' },
+                    svg: svgGraphs.charging_by_contact,
+                    options: [
+                        { ar: 'يلمس الجسم المشحون الجسم المتعادل مباشرة', en: 'Charged object directly touches neutral object' },
+                        { ar: 'يقترب الجسم المشحون دون لمس', en: 'Charged object approaches without touching' },
+                        { ar: 'يتم التأريض أولاً', en: 'Grounding first' },
+                        { ar: 'يتم التسخين', en: 'Heating' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحن بالتوصيل يتطلب التماس المباشر بين الجسمين', en: 'Charging by contact requires direct touch between objects' }
+                },
+                {
+                    q: { ar: 'إذا لمست كرة مشحونة بشحنة +Q كرة متعادلة مماثلة لها، فما شحنة كل كرة بعد التلامس؟', en: 'If charged sphere +Q touches identical neutral sphere, charge on each after contact?' },
+                    options: [
+                        { ar: '<span class="math-display">+Q/2</span> لكل منهما', en: '<span class="math-display">+Q/2</span> each' },
+                        { ar: '<span class="math-display">+Q</span> لكل منهما', en: '<span class="math-display">+Q</span> each' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">+2Q</span> لكل منهما', en: '<span class="math-display">+2Q</span> each' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة تتوزع بالتساوي: +Q/2 لكل كرة', en: 'Charge distributes equally: +Q/2 per sphere' }
+                },
+                {
+                    q: { ar: 'بعد الشحن بالتوصيل، شحنة الجسم المتعادل تصبح:', en: 'After charging by contact, neutral object charge becomes:' },
+                    options: [
+                        { ar: 'من نفس نوع شحنة الجسم المشحون', en: 'Same type as charged object' },
+                        { ar: 'عكس شحنة الجسم المشحون', en: 'Opposite to charged object' },
+                        { ar: 'صفراً دائماً', en: 'Always zero' },
+                        { ar: 'تعتمد على المادة', en: 'Depends on material' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'في الشحن بالتوصيل، الجسم المتعادل يأخذ نفس نوع الشحنة', en: 'In contact charging, neutral object takes same type of charge' }
+                },
+                {
+                    q: { ar: 'لوحة موصلة شحنتها +Q، إذا لمسها شخص ثم وُصلت بالأرض، تصبح:', en: 'Conducting plate charged +Q, if person touches it then grounded, becomes:' },
+                    svg: svgGraphs.grounding,
+                    options: [
+                        { ar: 'متعادلة (شحنتها صفر)', en: 'Neutral (charge = 0)' },
+                        { ar: 'موجبة أكثر', en: 'More positive' },
+                        { ar: 'سالبة', en: 'Negative' },
+                        { ar: 'نفس الشحنة +Q', en: 'Same charge +Q' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'التأريض يجعل الجسم متعادلاً (تنتقل إلكترونات من الأرض)', en: 'Grounding makes object neutral (electrons flow from earth)' }
+                },
+                {
+                    q: { ar: 'عند توصيل كرتين موصلتين مختلفتي الحجم بشحنة كلية Q، تتوزع الشحنة:', en: 'When connecting two conducting spheres of different sizes with total charge Q, charge distributes:' },
+                    options: [
+                        { ar: 'بحيث يكون الجهد متساوياً على السطحين', en: 'So that potential is equal on both surfaces' },
+                        { ar: 'بالتساوي دائماً', en: 'Always equally' },
+                        { ar: 'الكرة الأكبر تأخذ شحنة أقل', en: 'Larger sphere takes less charge' },
+                        { ar: 'عشوائياً', en: 'Randomly' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة تتوزع بحيث يتساوى الجهد الكهربائي على السطحين', en: 'Charge distributes to equalize electric potential on both surfaces' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: ' القسم 3: الشحن بالحث (Q11-Q15)', en: '🔹 Section 3: Charging by Induction (Q11-Q15)' },
+            questions: [
+                {
+                    q: { ar: 'في الشحن بالحث:', en: 'In charging by induction:' },
+                    svg: svgGraphs.charging_by_induction,
+                    options: [
+                        { ar: 'لا يلزم تلامس بين الجسم المشحون والجسم المتعادل', en: 'No contact needed between charged and neutral objects' },
+                        { ar: 'يجب التلامس المباشر', en: 'Direct contact required' },
+                        { ar: 'يجب التسخين', en: 'Heating required' },
+                        { ar: 'يجب استخدام مغناطيس', en: 'Magnet required' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحن بالحث يتم بدون تلامس - فقط بالتقريب', en: 'Induction charging happens without contact - just by approaching' }
+                },
+                {
+                    q: { ar: 'عند تقريب جسم سالب الشحنة من كشاف كهربائي متعادل (دون لمس)، ورقا الكشاف:', en: 'When bringing negatively charged object near neutral electroscope (without touching), leaves:' },
+                    options: [
+                        { ar: 'تتفرقان (تنفرجان) بشحنة موجبة', en: 'Diverge with positive charge' },
+                        { ar: 'تتفرقان بشحنة سالبة', en: 'Diverge with negative charge' },
+                        { ar: 'تبقى متدليتين', en: 'Stay hanging' },
+                        { ar: 'تتجاذبان', en: 'Attract each other' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الإلكترونات تُدفع للأسفل نحو الورقتين فتصبحان سالبتين وتتفرقان', en: 'Electrons pushed down to leaves making them negative and diverge' }
+                },
+                {
+                    q: { ar: 'لشحن جسم بالحث بشحنة موجبة، نستخدم جسماً:', en: 'To charge object positively by induction, we use:' },
+                    options: [
+                        { ar: 'جسماً سالب الشحنة (نقربه ثم نؤرض ثم نبعده)', en: 'Negatively charged object (approach, ground, remove)' },
+                        { ar: 'جسماً موجب الشحنة', en: 'Positively charged object' },
+                        { ar: 'جسماً متعادلاً', en: 'Neutral object' },
+                        { ar: 'مغناطيساً', en: 'Magnet' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'لشحن موجب بالحث: نقرب سالب، نؤرض (تخرج إلكترونات)، نرفع التأريض، نبعد الجسم السالب', en: 'For positive by induction: bring negative, ground (electrons leave), remove ground, remove negative' }
+                },
+                {
+                    q: { ar: 'الشحنة الناتجة عن الشحن بالحث تكون:', en: 'Charge resulting from induction charging is:' },
+                    options: [
+                        { ar: 'عكس شحنة الجسم المحثِّث', en: 'Opposite to inducing object' },
+                        { ar: 'نفس شحنة الجسم المحثِّث', en: 'Same as inducing object' },
+                        { ar: 'دائماً موجبة', en: 'Always positive' },
+                        { ar: 'دائماً سالبة', en: 'Always negative' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة بالحث تكون عكس شحنة الجسم المُقرَّب', en: 'Induction charge is opposite to approaching object' }
+                },
+                {
+                    q: { ar: 'في الشحن بالحث، دور التأريض (Grounding) هو:', en: 'In induction charging, role of grounding is:' },
+                    options: [
+                        { ar: 'السماح للإلكترونات بالانتقال من/إلى الأرض', en: 'Allow electrons to flow to/from earth' },
+                        { ar: 'تسخين الجسم', en: 'Heating object' },
+                        { ar: 'عزل الجسم', en: 'Insulating object' },
+                        { ar: 'تغيير لون الجسم', en: 'Changing object color' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'التأريض يسمح للإلكترونات بالهروب أو الدخول لتحقيق التعادل', en: 'Grounding allows electrons to escape or enter to achieve neutrality' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: الكشاف الكهربائي (Q16-Q20)', en: '🔹 Section 4: Electroscope (Q16-Q20)' },
+            questions: [
+                {
+                    q: { ar: 'الكشاف الكهربائي يُستخدم لـ:', en: 'Electroscope is used to:' },
+                    svg: svgGraphs.electroscope,
+                    options: [
+                        { ar: 'كشف وجود شحنة كهربائية ونوعها', en: 'Detect presence and type of electric charge' },
+                        { ar: 'قياس التيار الكهربائي', en: 'Measure electric current' },
+                        { ar: 'قياس الجهد الكهربائي بدقة', en: 'Measure voltage precisely' },
+                        { ar: 'توليد الكهرباء', en: 'Generate electricity' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الكشاف الكهربائي يكشف وجود الشحنة ويحدد نوعها (موجبة/سالبة)', en: 'Electroscope detects charge presence and determines type (positive/negative)' }
+                },
+                {
+                    q: { ar: 'يتكون الكشاف الكهربائي من:', en: 'Electroscope consists of:' },
+                    options: [
+                        { ar: 'كرة معدنية، ساق موصلة، ورقتان معدنيتان رقيقتان، وعاء زجاجي', en: 'Metal ball, conducting rod, two thin metal leaves, glass jar' },
+                        { ar: 'بطارية وأسلاك فقط', en: 'Battery and wires only' },
+                        { ar: 'مغناطيس وملف', en: 'Magnet and coil' },
+                        { ar: 'مقاومة ومكثف', en: 'Resistor and capacitor' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الكشاف = كرة معدنية + ساق موصلة + ورقتان + وعاء زجاجي عازل', en: 'Electroscope = metal ball + conducting rod + two leaves + insulating glass jar' }
+                },
+                {
+                    q: { ar: 'عند شحن الكشاف بشحنة موجبة، الورقتان:', en: 'When electroscope is charged positively, leaves:' },
+                    options: [
+                        { ar: 'تتفرقان (تنفرجان) لأنهما تحملان نفس الشحنة', en: 'Diverge because they carry same charge' },
+                        { ar: 'تتجاذبان', en: 'Attract each other' },
+                        { ar: 'تبقى متدليتين', en: 'Stay hanging' },
+                        { ar: 'تدوران', en: 'Rotate' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الورقتان تحملان نفس الشحنة الموجبة فتتنافران وتتفرقان', en: 'Leaves carry same positive charge so repel and diverge' }
+                },
+                {
+                    q: { ar: 'إذا كان الكشاف مشحوناً بشحنة موجبة، وقربنا منه قضيباً سالب الشحنة (دون لمس)، فإن:', en: 'If electroscope is positively charged and we bring negative rod near (without touching):' },
+                    options: [
+                        { ar: 'الورقتان تقتربان من بعضهما (تقل شحنتهما)', en: 'Leaves come closer (their charge decreases)' },
+                        { ar: 'الورقتان تتفرقان أكثر', en: 'Leaves diverge more' },
+                        { ar: 'لا يتغير شيء', en: 'Nothing changes' },
+                        { ar: 'الورقتان تدوران', en: 'Leaves rotate' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة السالبة تجذب الإلكترونات من الورقتين للأعلى فتقل شحنتهما وتقتربان', en: 'Negative charge attracts electrons from leaves upward, reducing their charge' }
+                },
+                {
+                    q: { ar: 'لماذا وعاء الكشاف الكهربائي مصنوع من الزجاج (عازل)؟', en: 'Why is electroscope jar made of glass (insulator)?' },
+                    options: [
+                        { ar: 'لمنع تسرب الشحنة إلى الخارج', en: 'To prevent charge leakage to outside' },
+                        { ar: 'لأن الزجاج رخيص', en: 'Because glass is cheap' },
+                        { ar: 'للزينة فقط', en: 'For decoration only' },
+                        { ar: 'ليكون شفافاً فقط', en: 'To be transparent only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الزجاج عازل يمنع تسرب الشحنة من الكشاف إلى البيئة المحيطة', en: 'Glass is insulator preventing charge leakage from electroscope to environment' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: التأريض والتطبيقات (Q21-Q25)', en: '🔹 Section 5: Grounding & Applications (Q21-Q25)' },
+            questions: [
+                {
+                    q: { ar: 'التأريض (Grounding) هو:', en: 'Grounding is:' },
+                    svg: svgGraphs.grounding,
+                    options: [
+                        { ar: 'توصيل الجسم بالأرض لنقل الشحنة الزائدة', en: 'Connecting object to earth to transfer excess charge' },
+                        { ar: 'عزل الجسم تماماً', en: 'Completely insulating object' },
+                        { ar: 'تسخين الجسم', en: 'Heating object' },
+                        { ar: 'إضافة شحنة للجسم', en: 'Adding charge to object' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'التأريض = توصيل الجسم بالأرض (مستودع لا نهائي للشحنات)', en: 'Grounding = connecting object to earth (infinite charge reservoir)' }
+                },
+                {
+                    q: { ar: 'عند تأريض جسم موجب الشحنة:', en: 'When grounding positively charged object:' },
+                    options: [
+                        { ar: 'تنتقل إلكترونات من الأرض إلى الجسم لتعادل الشحنة الموجبة', en: 'Electrons flow from earth to object to neutralize positive charge' },
+                        { ar: 'تنتقل بروتونات من الجسم إلى الأرض', en: 'Protons flow from object to earth' },
+                        { ar: 'لا يحدث شيء', en: 'Nothing happens' },
+                        { ar: 'يزداد الجسم موجباً', en: 'Object becomes more positive' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الإلكترونات تنتقل من الأرض (التي هي مستودع كبير) لتعادل الشحنة الموجبة', en: 'Electrons flow from earth (large reservoir) to neutralize positive charge' }
+                },
+                {
+                    q: { ar: 'الأرض تُعتبر:', en: 'Earth is considered:' },
+                    options: [
+                        { ar: 'مستودع لا نهائي للشحنات (مصدر أو مصرف)', en: 'Infinite reservoir of charges (source or sink)' },
+                        { ar: 'عازل تام', en: 'Perfect insulator' },
+                        { ar: 'موصلاً فائقاً', en: 'Superconductor' },
+                        { ar: 'شبه موصل', en: 'Semiconductor' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الأرض مستودع ضخم يمكنه امتصاص أو تزويد الإلكترونات دون تغير جهده', en: 'Earth is huge reservoir that can absorb/supply electrons without potential change' }
+                },
+                {
+                    q: { ar: 'لماذا تُؤرض الطائرات بعد الهبوط؟', en: 'Why are airplanes grounded after landing?' },
+                    options: [
+                        { ar: 'لتفريغ الشحنة الساكنة المتجمعة أثناء الطيران', en: 'To discharge static charge accumulated during flight' },
+                        { ar: 'لتبريد المحركات', en: 'To cool engines' },
+                        { ar: 'لزيادة الوزن', en: 'To increase weight' },
+                        { ar: 'لا سبب', en: 'No reason' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الطائرات تتراكم عليها شحنات ساكنة من الاحتكاك بالهواء، والتأريض يفرغها بأمان', en: 'Airplanes accumulate static charge from air friction; grounding safely discharges it' }
+                },
+                {
+                    q: { ar: 'في محطات الوقود، لماذا تُؤرض الشاحنات قبل التفريغ؟', en: 'At gas stations, why are trucks grounded before unloading?' },
+                    options: [
+                        { ar: 'لمنع حدوث شرر قد يشعل الوقود', en: 'To prevent sparks that could ignite fuel' },
+                        { ar: 'لتسريع التفريغ', en: 'To speed up unloading' },
+                        { ar: 'لقياس كمية الوقود', en: 'To measure fuel amount' },
+                        { ar: 'لتبريد الوقود', en: 'To cool fuel' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة الساكنة قد تسبب شرراً يشعل أبخرة الوقود، لذا التأريض ضروري للسلامة', en: 'Static charge could cause spark igniting fuel vapors; grounding essential for safety' }
+                }
+            ]
+        },
+        {
+            id: 'sec6',
+            title: { ar: '🔹 القسم 6: مسائل وتطبيقات (Q26-Q30)', en: '🔹 Section 6: Problems & Applications (Q26-Q30)' },
+            questions: [
+                {
+                    q: { ar: 'قضيب زجاجي مشحون بشحنة +Q اقترب من كشاف متعادل ثم لُمس الكشاف ثم أُبعد القضيب. شحنة الكشاف النهائية:', en: 'Glass rod +Q approached neutral electroscope, then touched, then removed. Final charge:' },
+                    options: [
+                        { ar: 'موجبة (+)', en: 'Positive (+)' },
+                        { ar: 'سالبة (-)', en: 'Negative (-)' },
+                        { ar: 'متعادلة (0)', en: 'Neutral (0)' },
+                        { ar: 'تعتمد على المادة', en: 'Depends on material' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'التماس مع جسم موجب ينقل شحنة موجبة للكشاف', en: 'Contact with positive object transfers positive charge to electroscope' }
+                },
+                {
+                    q: { ar: 'كرة A شحنتها +8 μC، كرة B شحنتها -2 μC. بعد التلامس ثم الفصل، شحنة كل كرة:', en: 'Sphere A has +8 μC, sphere B has -2 μC. After contact then separation, charge on each:' },
+                    options: [
+                        { ar: '<span class="math-display">+3 μC</span> لكل منهما', en: '<span class="math-display">+3 μC</span> each' },
+                        { ar: '<span class="math-display">+6 μC</span> لكل منهما', en: '<span class="math-display">+6 μC</span> each' },
+                        { ar: '<span class="math-display">+5 μC</span> لكل منهما', en: '<span class="math-display">+5 μC</span> each' },
+                        { ar: '<span class="math-display">+4 μC</span> لكل منهما', en: '<span class="math-display">+4 μC</span> each' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة الكلية = +8 + (-2) = +6 μC. بعد التلامس: +6/2 = +3 μC لكل كرة', en: 'Total charge = +8 + (-2) = +6 μC. After contact: +6/2 = +3 μC per sphere' }
+                },
+                {
+                    q: { ar: 'كشاف مشحون بشحنة سالبة، عند تقريب قضيب موجب دون لمس:', en: 'Negatively charged electroscope, when positive rod approached without touching:' },
+                    options: [
+                        { ar: 'الورقتان تقتربان من بعضهما', en: 'Leaves come closer together' },
+                        { ar: 'الورقتان تتفرقان أكثر', en: 'Leaves diverge more' },
+                        { ar: 'لا يتغير شيء', en: 'Nothing changes' },
+                        { ar: 'الورقتان تدوران', en: 'Leaves rotate' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة الموجبة تجذب الإلكترونات من الورقتين للأعلى فتقل شحنتهما السالبة وتقتربان', en: 'Positive charge attracts electrons from leaves upward, reducing negative charge' }
+                },
+                {
+                    q: { ar: 'في الشحن بالحث، إذا قربنا جسم سالب من كرة موصلة متعادلة مؤرضة، ثم رفعنا التأريض ثم أبعدنا الجسم السالب، تصبح الكرة:', en: 'In induction, if negative object brought near grounded neutral sphere, then ground removed, then object removed, sphere becomes:' },
+                    options: [
+                        { ar: 'موجبة الشحنة', en: 'Positively charged' },
+                        { ar: 'سالبة الشحنة', en: 'Negatively charged' },
+                        { ar: 'متعادلة', en: 'Neutral' },
+                        { ar: 'تعتمد على المادة', en: 'Depends on material' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الجسم السالب يدفع إلكترونات الكرة إلى الأرض، فتصبح الكرة موجبة بعد رفع التأريض', en: 'Negative object pushes electrons to ground, sphere becomes positive after ground removed' }
+                },
+                {
+                    q: { ar: 'أي من طرق الشحن التالية لا تتطلب تلامساً مباشراً؟', en: 'Which charging method does NOT require direct contact?' },
+                    options: [
+                        { ar: 'الشحن بالحث (Induction)', en: 'Charging by induction' },
+                        { ar: 'الشحن بالتوصيل (Contact)', en: 'Charging by contact' },
+                        { ar: 'الشحن بالدلك (Friction)', en: 'Charging by friction' },
+                        { ar: 'كلها تتطلب تلامساً', en: 'All require contact' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحن بالحث يتم بالتقريب فقط دون تلامس مباشر', en: 'Induction charging happens by approach only, no direct contact' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? ' سيتم إنشاء أسئلة جديدة ومسح إجاباتك. هل أنت متأكد؟' : '🔄 New questions will be generated. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? '🎲 تم تغيير الأسئلة! حظاً موفقاً! 🍀' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' }, en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang];
+    let html = '';
+    let globalIdx = 0;
+    
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5', 'module-6'][secIdx];
+        html += '<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-amber-100">';
+        html += '<div class="text-center mb-4"><span class="module-badge ' + badgeClass + '">' + section.title[currentLang] + '</span></div>';
+        html += '<ol class="space-y-4 text-sm">';
+        
+        section.questions.forEach((q) => {
+            html += '<li class="border-r-4 border-amber-400 pr-4 py-2" id="q-' + globalIdx + '">';
+            html += '<strong class="text-amber-700">' + (globalIdx + 1) + '.</strong> <span class="arabic-math">' + q.q[currentLang] + '</span><br>';
+            if (q.svg) html += '<div class="graph-container">' + q.svg + '</div>';
+            
+            q.options.forEach((opt, oIdx) => {
+                html += '<label class="cursor-pointer block mt-2 mr-4 hover:bg-amber-50 rounded-lg p-2 transition">';
+                html += '<input type="radio" name="q' + globalIdx + '" value="' + String.fromCharCode(97 + oIdx) + '" class="mr-2 ml-2">';
+                html += '<span class="arabic-math">' + lbl.option[oIdx] + ') ' + opt[currentLang] + '</span>';
+                html += '</label>';
+            });
+            
+            html += '<div class="answer-box text-green-700 mt-3 font-medium ' + (answersVisible ? '' : 'hidden') + ' bg-green-50 rounded-lg p-3 border border-green-200">';
+            html += lbl.answer + ' ' + lbl.option[q.correct] + ') <span class="arabic-math">' + q.options[q.correct][currentLang] + '</span><br>';
+            html += '<span class="text-sm text-green-700 mt-2 block arabic-math">' + q.answer[currentLang] + '</span>';
+            html += '</div></li>';
+            globalIdx++;
+        });
+        
+        html += '</ol></section>';
+    });
+    
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert("⏰ انتهى الوقت!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60);
+    const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const sel = document.querySelector('input[name="q'+i+'"]:checked');
+        const li = document.getElementById('q-' + i);
+        if (li) {
+            const isCorrect = sel && sel.value === correctAnswersMap[i];
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                sectionScores[Math.floor(i / QUESTIONS_PER_SECTION)]++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
+        }
+    }
+    
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = score + ' / 100';
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || 'بطل';
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString('ar-AE');
+    
+    const pc = document.getElementById('sections-performance');
+    pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += '<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">' + s.title[currentLang] + '</span><span class="font-bold text-amber-700">' + sectionScores[idx] + '/' + QUESTIONS_PER_SECTION + '</span></div>';
+    });
+    
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = score + '%';
+    
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = '⏳ جاري الإرسال...';
+    
+    const name = document.getElementById('studentName').value || 'غير محدد';
+    const studentClass = document.getElementById('studentClass').value || 'غير محدد';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    
+    let questionsHTML = '<table style="width:100%; border-collapse: collapse; font-family: Arial; font-size: 12px; direction: rtl;">';
+    questionsHTML += '<thead><tr style="background:#d97706; color:white;"><th style="padding:8px; border:1px solid #ddd;">#</th><th style="padding:8px; border:1px solid #ddd;">السؤال</th><th style="padding:8px; border:1px solid #ddd;">إجابة الطالب</th><th style="padding:8px; border:1px solid #ddd;">الصحيحة</th><th style="padding:8px; border:1px solid #ddd;">النتيجة</th></tr></thead><tbody>';
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        questionsHTML += '<tr style="background:#fef3c7;"><td colspan="5" style="padding:8px; font-weight:bold; border:1px solid #ddd;">' + section.title.ar + '</td></tr>';
+        section.questions.forEach((q) => {
+            const sel = document.querySelector('input[name="q'+globalIdx+'"]:checked');
+            const sv = sel ? sel.value : null;
+            const cv = correctAnswersMap[globalIdx];
+            const ic = sv === cv;
+            let sat = '❌ لم يجب';
+            let sac = '#dc2626';
+            if (sv) {
+                const si = sv.charCodeAt(0) - 97;
+                sat = q.options[si].ar;
+                sac = ic ? '#16a34a' : '#dc2626';
+            }
+            const cat = q.options[q.correct].ar;
+            const rb = ic ? '#f0fdf4' : '#fef2f2';
+            questionsHTML += '<tr style="background:' + rb + ';"><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (globalIdx+1) + '</td><td style="padding:8px; border:1px solid #ddd;">' + q.q.ar + '</td><td style="padding:8px; border:1px solid #ddd; color:' + sac + ';">' + sat + '</td><td style="padding:8px; border:1px solid #ddd; color:#16a34a;">' + cat + '</td><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (ic?'✅':'') + '</td></tr>';
+            globalIdx++;
+        });
+    });
+    questionsHTML += '</tbody></table>';
+    
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        student_class: studentClass,
+        exam_date: date,
+        total_score: score,
+        success_rate: successRate,
+        grade: badge,
+        answers_table: questionsHTML
+    };
+    
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = '✅ تم الإرسال بنجاح!';
+            status.style.color = '#16a34a';
+            btn.textContent = '✓ تم';
+            alert('تم إرسال النتيجة للمعلم بنجاح!');
+        })
+        .catch((error) => {
+            status.textContent = '❌ فشل الإرسال';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = '📧 حاول مرة أخرى';
+            alert('فشل الإرسال: ' + error.text);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed;
+        currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+        document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.body.classList.toggle('en-mode', currentLang === 'en');
+    } else {
+        currentSeed = Date.now();
+    }
+    prepareShuffledExam();
+    renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners();
+    setupInputListeners();
+    startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
